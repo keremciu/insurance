@@ -1,10 +1,18 @@
 html {
-  --layoutWidth: 1080px;
   --paddingNormal: 16px;
   --paddingLarge: 24px;
+  --layoutWidth: calc(100vw - var(--paddingNormal)*2);
+  --layoutWidthMax: 1080px;
   --bgColor:  #f0f0eb;
   --accentColor: #ebd55b;
 }
+
+@media (min-width: 1112px) {
+  html {
+    --layoutWidth: var(--layoutWidthMax);
+  }
+}
+
 
 body, input, button {
   font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
@@ -30,13 +38,20 @@ header {
 
 form {
   background: white;
-  padding-top: var(--paddingLarge);
+  padding: var(--paddingLarge);
   text-align: center;
 }
 
 label {
   font-size: 2rem;
   display: block;
+}
+
+input {
+  max-width: var(--layoutWidth);
+  font-size: 2rem;
+  margin-top: var(--paddingNormal);
+  padding: var(--paddingNormal) var(--paddingLarge);
 }
 
 button {

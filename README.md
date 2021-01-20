@@ -6,9 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - User input persistency
 -> Easy but not secure solution is using localStorage. Unfortunately, user gives us sensitive data 
-(email, address). Cookies would be a secure one but it's giving us much freedom for using data.
+(email, address). Cookies would be a secure one but it's not giving us much freedom over that data.
 I'd like to give it a try to using ServiceWorker.
-
 
 ## Available Scripts
 

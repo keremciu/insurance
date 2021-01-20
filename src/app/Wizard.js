@@ -16,6 +16,15 @@ const stepsData = {
   "numberOfChildren": {
     initialValue: 0,
     label: 'How many children you have?'
+  },
+  "occupation": {
+    initialValue: "",
+    label: 'What is your occupation?'
+  },
+  "email": {
+    initialValue: "",
+    placeholder: 'johndoe@gmail.com',
+    label: 'What is your email address?'
   }
 }
 const stepsInOrder = ["firstName", "address", "numberOfChildren", "occupation", "email"]
@@ -24,6 +33,8 @@ function Wizard() {
   const { step } = useParams();
   const navigate = useNavigate()
   const stepData = stepsData[step]
+  const stepIndex = stepsInOrder.findIndex(s => s === step)
+  const isLastStep = stepIndex === stepsInOrder.length - 1
 
   useEffect(() => {
     if (stepData === undefined) {
@@ -38,18 +49,21 @@ function Wizard() {
   }
 
   function handleSubmit(values) {
-    const nextStepIndex = stepsInOrder.findIndex(s => s === step) + 1
-    navigate(`/wizard/${stepsInOrder[nextStepIndex]}`)
+    if (!isLastStep) {
+      const nextStepIndex = stepIndex + 1
+      navigate(`/wizard/${stepsInOrder[nextStepIndex]}`)
+    }
+    // send request here
   }
 
   return (
     <Formik initialValues={{ [step]: stepData.initialValue }} onSubmit={handleSubmit}>
       <Form>
         <div>
-          <label>{stepData.label}</label>
-          <Field type="text" name={step} placeholder={stepData.placeholder} />
-          <button type="submit">Next</button>
+          <label htmlFor={step}>{stepData.label}</label>
+          <Field type="text" id={step} name={step} placeholder={stepData.placeholder} />
         </div>
+        <button type="submit">{isLastStep ? 'Submit' : 'Next'}</button>
       </Form>
     </Formik>
   )
