@@ -1,9 +1,9 @@
 html {
   --paddingNormal: 16px;
   --paddingLarge: 24px;
-  --layoutWidth: calc(100vw - var(--paddingNormal)*2);
+  --layoutWidth: calc(100vw - var(--paddingNormal) * 2);
   --layoutWidthMax: 1080px;
-  --bgColor:  #f0f0eb;
+  --bgColor: #f0f0eb;
   --accentColor: #ebd55b;
 }
 
@@ -13,11 +13,11 @@ html {
   }
 }
 
-
-body, input, button {
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+body,
+input,
+button {
+  font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 

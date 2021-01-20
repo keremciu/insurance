@@ -1,15 +1,13 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 
-import Home from './Home'
-import Wizard from './Wizard'
+import Home from "./Home";
+import Wizard from "./Wizard";
+import WizardStep from './WizardStep'
+import Recommendation from './Recommendation'
 
 function App() {
   return (
-    <Router>
+    <>
       <header>
         <div className="layoutContainer">
           <h1>Brand new insurance experience</h1>
@@ -20,13 +18,14 @@ function App() {
         <div className="layoutContainer">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="wizard">
-              <Route path=":step" element={<Wizard />} />
+            <Route path="wizard" element={<Wizard />}>
+              <Route path=":step" element={<WizardStep />} />
             </Route>
+            <Route path="recommendation" element={<Recommendation />} />
           </Routes>
         </div>
       </section>
-    </Router>
+    </>
   );
 }
 

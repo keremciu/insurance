@@ -1,15 +1,15 @@
-import {
-  useNavigate
-} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   function handleStart() {
-    navigate('/wizard')
+    navigate("/wizard");
   }
   return (
-    <button onClick={handleStart} type="button">Start</button>
+    <button onClick={handleStart} type="button">
+      Start
+    </button>
   );
 }
 
-export default Home
+export default Home;

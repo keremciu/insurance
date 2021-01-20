@@ -4,10 +4,18 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Notes
 
-- User input persistency
--> Easy but not secure solution is using localStorage. Unfortunately, user gives us sensitive data 
-(email, address). Cookies would be a secure one but it's not giving us much freedom over that data.
-I'd like to give it a try to using ServiceWorker.
+### User input persistency
+#### Problems:
+  - User gives us sensitive data (email, address).
+
+#### Solutions:
+
+- LocalStorage = easy but not good security
+- SessionStorage = doesn't persist data if user closes the tab
+- Cookies = secure but not good flexbiliy
+- ServiceWorker = secure and flexible but complex
+
+Conclusion: In real world example, I would go for ServiceWorker but for limited time localStorage would serve right.
 
 ## Available Scripts
 
