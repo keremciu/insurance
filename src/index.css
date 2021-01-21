@@ -69,3 +69,15 @@ button {
   max-width: var(--layoutWidth);
   margin: 0 auto;
 }
+
+.errorText {
+  color: #f44336;
+  margin-top: var(--paddingNormal);
+}
+
+.radioGroup label {
+  font-size: 1.4rem;
+  width: 240px;
+  margin: 10px auto;
+  text-align: left;
+}

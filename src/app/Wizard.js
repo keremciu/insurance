@@ -3,54 +3,21 @@ import { useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
-export const stepsData = {
-  firstName: {
-    initialValue: "",
-    placeholder: "John Doe",
-    label: "What is your first name?",
-  },
-  address: {
-    initialValue: "",
-    placeholder: "Address",
-    label: "What is your address?",
-  },
-  numberOfChildren: {
-    initialValue: 0,
-    label: "How many children you have?",
-  },
-  occupation: {
-    initialValue: "",
-    label: "What is your occupation?",
-    type: 'radio',
-    options: [
-      {
-        label: 'Employed',
-        value: 'EMPLOYED',
-      },
-      {
-        label: 'Self employed',
-        value: 'SELF_EMPLOYED',
-      },
-      {
-        label: 'Student',
-        value: 'STUDENT',
-      },
-    ]
-  },
-  email: {
-    initialValue: "",
-    placeholder: "johndoe@gmail.com",
-    label: "What is your email address?",
-  },
-};
+import { stepsData, stepsInOrder, WizardSchema } from './Wizard.config'
 
-const stepsInOrder = [
-  "firstName",
-  "address",
-  "numberOfChildren",
-  "occupation",
-  "email",
-];
+// edge case: if user use the URL bar to reach last field then try to send form without filling one of the fields
+function NavigateToShowError({ errors, lastStep }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const errorKeys = Object.keys(errors);
+    if (!errors[lastStep] && errorKeys.length > 0) {
+      const [firstErrorKey] = errorKeys
+      // TODO: we can show user a general error to explain why they're navigated.
+      navigate(`/wizard/${firstErrorKey}`)
+    }
+  }, [lastStep, errors, navigate]);
+  return null;
+}
 
 function Wizard() {
   const [, setCookie] = useCookies(['Authorization']);
@@ -58,34 +25,42 @@ function Wizard() {
   const location = useLocation()
   const step = /[^/]*$/.exec(location.pathname)[0];
   const stepData = stepsData[step];
-  const userInputCache = JSON.parse(localStorage.getItem('user_input')) || {}
+  const wrongStep = stepData === undefined;
 
   useEffect(() => {
-    if (stepData === undefined) {
-      // handle non-step urls
+    if (wrongStep) {
+      // navigate user to the first field, navigate requires useEffect.
       navigate(`/wizard/${stepsInOrder[0]}`);
-      return null;
     }
-  }, [stepData, navigate]);
+  }, [wrongStep, navigate]);
 
-  if (stepData === undefined) {
+  if (wrongStep) {
     return null;
   }
 
+  const userInputCache = JSON.parse(localStorage.getItem('user_input')) || {}
   const stepIndex = stepsInOrder.findIndex((s) => s === step);
   const isLastStep = stepIndex === stepsInOrder.length - 1;
 
-  function handleSubmit(values) {
+  function persistValues(values, step) {
     localStorage.setItem("user_input", JSON.stringify({
       ...userInputCache,
-      ...values
+      step: values[step]
     }))
+  }
 
-    if (!isLastStep) {
-      const nextStepIndex = stepIndex + 1;
-      return navigate(`/wizard/${stepsInOrder[nextStepIndex]}`);
+  async function handleNext(validateForm, values) {
+    const errors = await validateForm()
+    if (errors[step]) {
+      return null;
     }
+    persistValues(values, step)
+    const nextStepIndex = stepIndex + 1;
+    return navigate(`/wizard/${stepsInOrder[nextStepIndex]}`);
+  }
 
+  async function handleSubmit(values) {
+    persistValues(values, step)
     fetch(new URL('user', process.env.REACT_APP_API_URL), {
       headers: {
         'Content-Type': 'application/json'
@@ -93,9 +68,18 @@ function Wizard() {
       method: "POST",
       body: JSON.stringify(values)
     })
-      .then(response => response.json())
+
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          return response.json()
+        } else {
+          throw new Error('Network error')
+        }
+      })
       .then(token => {
-        setCookie('Authorization', `Bearer ${token.jwt}`)
+        setCookie('Authorization', `Bearer ${token.jwt}`, {
+          path: '/'
+        })
         navigate('/recommendation')
       })
       .catch(err => console.log(err))
@@ -107,11 +91,20 @@ function Wizard() {
   }, {})
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      <Form>
-        <Outlet />
-        <button type="submit">{isLastStep ? "Submit" : "Next"}</button>
-      </Form>
+    <Formik initialValues={initialValues} validationSchema={WizardSchema} onSubmit={handleSubmit}>
+      {({ validateForm, values, errors }) => (
+        <Form>
+          <Outlet />
+          {isLastStep ?
+            (
+              <>
+                <button type="submit">Submit</button>
+                <NavigateToShowError errors={errors} lastStep={step} />
+              </>)
+            :
+            <button type="button" disabled={errors[step]} onClick={() => handleNext(validateForm, values)}>Next</button>
+          }
+        </Form>)}
     </Formik>
   );
 }

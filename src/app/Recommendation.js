@@ -17,7 +17,7 @@ function Recommendation() {
       })
         .then(response => {
           if (response.status >= 200 && response.status < 300) {
-           return response.json()
+            return response.json()
           } else {
             throw new Error('Network error')
           }
