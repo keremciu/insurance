@@ -1,9 +1,11 @@
 import { Routes, Route } from "react-router-dom";
+import { ErrorBoundary } from 'react-error-boundary'
 
 import Home from "./Home";
 import Wizard from "./Wizard";
 import WizardStep from './WizardStep'
 import Recommendation from './Recommendation'
+import ErrorFallback from './ErrorFallback'
 
 function App() {
   return (
@@ -16,13 +18,15 @@ function App() {
       </header>
       <section>
         <div className="layoutContainer">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="wizard" element={<Wizard />}>
-              <Route path=":step" element={<WizardStep />} />
-            </Route>
-            <Route path="recommendation" element={<Recommendation />} />
-          </Routes>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="wizard" element={<Wizard />}>
+                <Route path=":step" element={<WizardStep />} />
+              </Route>
+              <Route path="recommendation" element={<Recommendation />} />
+            </Routes>
+          </ErrorBoundary>
         </div>
       </section>
     </>

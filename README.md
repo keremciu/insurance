@@ -17,6 +17,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Conclusion: In real world example, I would go for ServiceWorker but for limited time localStorage would serve right.
 
+#### Possible scaling thoughts
+  - User/Product research would help to understand the wizard.
+  -- It can be a case that there's no insurance we can provide for people older than 70 years old.
+  --- Solution is we can give an error in a wizard step we ask for birthday.
+
 ## Available Scripts
 
 In the project directory, you can run:

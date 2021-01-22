@@ -9,7 +9,9 @@ it('renders header title', () => {
 });
 
 it('renders home component button first', () => {
-  render(<App />);
+  render(<App />, {
+    history: 'naber'
+  });
   screen.getByRole('button', {name: /start/i});
 });
 

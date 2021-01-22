@@ -11,7 +11,7 @@ export const stepsInOrder = [
 export const stepsData = {
   firstName: {
     initialValue: "",
-    placeholder: "John Doe",
+    placeholder: "Jane Doe",
     label: "What is your first name?",
   },
   address: {
