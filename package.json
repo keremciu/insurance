@@ -1,5 +1,6 @@
 {
   "name": "insurance",
+  "homepage": "https://keremciu.github.io/insurance",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
