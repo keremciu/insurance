@@ -1,8 +1,9 @@
 import { Formik, Form } from "formik";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 
+import ErrorFallback from './ErrorFallback'
 import { stepsData, stepsInOrder, WizardSchema } from './Wizard.config'
 
 // edge case: if user use the URL bar to reach last field then try to send form without filling one of the fields
@@ -20,6 +21,8 @@ function NavigateToShowError({ errors, lastStep }) {
 }
 
 function Wizard() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const [, setCookie] = useCookies(['Authorization']);
   const navigate = useNavigate();
   const location = useLocation()
@@ -66,29 +69,33 @@ function Wizard() {
   }
 
   async function handleSubmit(values) {
+    setIsLoading(true)
     persistValues(values, step)
     const { children, ...omitChildrenStep } = values
-    fetch(new URL('user', process.env.REACT_APP_API_URL), {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify(omitChildrenStep)
-    })
-      .then(response => {
-        if (response.status >= 200 && response.status < 300) {
-          return response.json()
-        } else {
-          throw new Error('Network error')
-        }
-      })
-      .then(token => {
-        setCookie('Authorization', `Bearer ${token.jwt}`, {
+    try {
+      const requestURL = new URL('user', process.env.REACT_APP_API_URL)
+      const requestOptions = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(omitChildrenStep)
+      }
+      const response = await fetch(requestURL, requestOptions)
+      const result = await response.json()
+      if (response.ok) {
+        setCookie('Authorization', `Bearer ${result.jwt}`, {
           path: '/'
         })
         navigate(`${process.env.PUBLIC_URL}/recommendation`);
-      })
-      .catch(err => console.log(err))
+      } else {
+        setError(result.error)
+      }
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const initialValues = stepsInOrder.reduce((mem, stepKey) => {
@@ -98,13 +105,15 @@ function Wizard() {
 
   return (
     <Formik initialValues={initialValues} validationSchema={WizardSchema} onSubmit={handleSubmit}>
-      {({ validateForm, values, errors }) => (
+      {({ validateForm, isSubmitting, values, errors }) => (
         <Form>
+          {isLoading && "Validating your data..."}
+          {error && <ErrorFallback error={error} />}
           <Outlet />
           {isLastStep ?
             (
               <>
-                <button type="submit">Submit</button>
+                <button disabled={isSubmitting || isLoading} type="submit">Submit</button>
                 <NavigateToShowError errors={errors} lastStep={step} />
               </>)
             :

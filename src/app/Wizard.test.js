@@ -64,6 +64,7 @@ describe('user fills every step of the wizard', () => {
     userEvent.type(screen.getByPlaceholderText(stepsData[lastStep].placeholder), 'test@test.com')
     await waitForElementToBeRemoved(() => screen.getByText(requiredMessage))
     userEvent.click(screen.getByRole('button', { name: /submit/i }))
+    await waitFor(() => screen.getByText('Validating your data...'))
     await waitFor(() => expect(history.location.pathname).toBe('/recommendation'))
     await waitForElementToBeRemoved(() => screen.getByText('Loading best recommendations for you...'))
     mockedRecommendations.forEach(item => {
