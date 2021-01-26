@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/insurance/static/css/main.812d0569.chunk.css",
+    "main.js": "/insurance/static/js/main.a6ad9ddb.chunk.js",
+    "main.js.map": "/insurance/static/js/main.a6ad9ddb.chunk.js.map",
+    "runtime-main.js": "/insurance/static/js/runtime-main.020ac31f.js",
+    "runtime-main.js.map": "/insurance/static/js/runtime-main.020ac31f.js.map",
+    "static/js/2.9a8792ec.chunk.js": "/insurance/static/js/2.9a8792ec.chunk.js",
+    "static/js/2.9a8792ec.chunk.js.map": "/insurance/static/js/2.9a8792ec.chunk.js.map",
+    "static/js/3.28deb20a.chunk.js": "/insurance/static/js/3.28deb20a.chunk.js",
+    "static/js/3.28deb20a.chunk.js.map": "/insurance/static/js/3.28deb20a.chunk.js.map",
+    "index.html": "/insurance/index.html",
+    "static/css/main.812d0569.chunk.css.map": "/insurance/static/css/main.812d0569.chunk.css.map",
+    "static/js/2.9a8792ec.chunk.js.LICENSE.txt": "/insurance/static/js/2.9a8792ec.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.020ac31f.js",
+    "static/js/2.9a8792ec.chunk.js",
+    "static/css/main.812d0569.chunk.css",
+    "static/js/main.a6ad9ddb.chunk.js"
+  ]
+}
