@@ -40,7 +40,7 @@ function Recommendation() {
 
   function handleReset() {
     localStorage.removeItem('user_input')
-    navigate("/");
+    navigate(`${process.env.PUBLIC_URL}/`);
   }
 
   const renderList = items.map(

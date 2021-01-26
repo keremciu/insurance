@@ -19,7 +19,7 @@ function App() {
       <section>
         <div className="layoutContainer">
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <Routes>
+            <Routes basename={process.env.PUBLIC_URL}>
               <Route path="/" element={<Home />} />
               <Route path="wizard" element={<Wizard />}>
                 <Route path=":step" element={<WizardStep />} />

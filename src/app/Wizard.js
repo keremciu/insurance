@@ -13,7 +13,7 @@ function NavigateToShowError({ errors, lastStep }) {
     if (!errors[lastStep] && errorKeys.length > 0) {
       const [firstErrorKey] = errorKeys
       // TODO: we can show user a general error to explain why they're navigated.
-      navigate(`/wizard/${firstErrorKey}`)
+      navigate(`${process.env.PUBLIC_URL}/wizard/${firstErrorKey}`);
     }
   }, [lastStep, errors, navigate]);
   return null;
@@ -31,7 +31,7 @@ function Wizard() {
     if (wrongStep) {
       // navigate user to the first field, navigate requires useEffect.
       // here replace is important, otherwise browser history will keep `wizard` path as valid path.
-      navigate(`/wizard/${stepsInOrder[0]}`, { replace: true });
+      navigate(`${process.env.PUBLIC_URL}/wizard/${stepsInOrder[0]}`, { replace: true });
     }
   }, [wrongStep, navigate]);
 
@@ -57,10 +57,10 @@ function Wizard() {
     }
     persistValues(values, step)
     if (stepData.rejectionStep && values[step] === 'false') {
-      return navigate(`/wizard/${stepData.rejectionStep}`);
+      return navigate(`${process.env.PUBLIC_URL}/wizard/${stepData.rejectionStep}`);
     }
     const nextStepIndex = stepIndex + 1;
-    return navigate(`/wizard/${stepsInOrder[nextStepIndex]}`);
+    return navigate(`${process.env.PUBLIC_URL}/wizard/${stepsInOrder[nextStepIndex]}`);
   }
 
   async function handleSubmit(values) {
@@ -85,7 +85,7 @@ function Wizard() {
         setCookie('Authorization', `Bearer ${token.jwt}`, {
           path: '/'
         })
-        navigate('/recommendation')
+        navigate(`${process.env.PUBLIC_URL}/recommendation`);
       })
       .catch(err => console.log(err))
   }
