@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie'
 
 import ErrorFallback from './ErrorFallback'
+import { capitalizeSnakeCase } from '../utils/capitalize'
 
 function Recommendation() {
   const [items, setItems] = useState([])
@@ -46,12 +47,12 @@ function Recommendation() {
   const renderList = items.map(
     (item) => {
       const price = item.price.amount.toFixed(2)
-      const priceText = `${price} per ${item.price.periodicity.toLowerCase()}`
+      const priceText = `€${price} per ${item.price.periodicity.toLowerCase()}`
 
       return (
         <li key={item.type}>
-          <h3>{item.type}</h3>
-          <span>{priceText}</span>
+          <h3>{capitalizeSnakeCase(item.type)}</h3>
+          <strong>{priceText}</strong>
         </li>
       );
     },
@@ -65,7 +66,7 @@ function Recommendation() {
       {error ?
         <ErrorFallback error={error} />
         :
-        <ul>
+        <ul className="itemList">
           {renderList}
         </ul>
       }

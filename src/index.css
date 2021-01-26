@@ -5,6 +5,8 @@ html {
   --layoutWidthMax: 1080px;
   --bgColor: #f0f0eb;
   --accentColor: #ebd55b;
+  --grayColor: #c0cdd7;
+  --textColor: #24313c;
 }
 
 @media (min-width: 1112px) {
@@ -22,6 +24,7 @@ button {
 
 body {
   background: var(--bgColor);
+  color: var(--textColor);
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -80,4 +83,20 @@ button {
   width: 240px;
   margin: 10px auto;
   text-align: left;
+}
+
+.itemList {
+  padding: 0;
+}
+
+.itemList li {
+  border: 2px solid var(--grayColor);
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.itemList li h3 {
+  flex: 1;
 }

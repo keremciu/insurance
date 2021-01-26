@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { mockedRecommendations } from '../mocks/handlers'
 import { render, screen, waitFor, waitForElementToBeRemoved } from '../testUtils';
 import Recommendation from './Recommendation';
+import { capitalizeSnakeCase } from '../utils/capitalize'
 
 it('renders secondary title and no authentication error', async () => {
   render(<Recommendation />);
@@ -32,6 +33,6 @@ it('shows recommendation list', async () => {
   });
   await waitForElementToBeRemoved(() => screen.getByText('Loading best recommendations for you...'))
   mockedRecommendations.forEach(item => {
-    screen.getByText(item.type)
+    screen.getByText(capitalizeSnakeCase(item.type))
   })
 });
