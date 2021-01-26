@@ -9,15 +9,13 @@ it('renders header title', () => {
 });
 
 it('renders home component button first', () => {
-  render(<App />, {
-    history: 'naber'
-  });
-  screen.getByRole('button', {name: /start/i});
+  render(<App />);
+  screen.getByRole('button', { name: /start/i });
 });
 
 describe('when user clicks start button', () => {
   it('renders wizard component', () => {
     render(<App />);
-    userEvent.click(screen.getByRole('button', {name: /start/i}));
+    userEvent.click(screen.getByRole('button', { name: /start/i }));
   });
 });

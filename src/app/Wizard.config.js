@@ -3,9 +3,10 @@ import * as Yup from 'yup';
 export const stepsInOrder = [
   "firstName",
   "address",
+  "children",
   "numberOfChildren",
   "occupation",
-  "email", 
+  "email",
 ];
 
 export const stepsData = {
@@ -18,6 +19,22 @@ export const stepsData = {
     initialValue: "",
     placeholder: "Address",
     label: "What is your address?",
+  },
+  children: {
+    initialValue: 'false',
+    label: "Do you have any children?",
+    type: 'radio',
+    options: [
+      {
+        label: 'Yes',
+        value: 'true',
+      },
+      {
+        label: 'No',
+        value: 'false',
+      },
+    ],
+    rejectionStep: 'occupation'
   },
   numberOfChildren: {
     initialValue: 0,

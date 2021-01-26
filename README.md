@@ -18,9 +18,20 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Conclusion: In real world example, I would go for ServiceWorker but for limited time localStorage would serve right.
 
 #### Possible scaling thoughts
-  - User/Product research would help to understand the wizard.
+  - Here we have only two big components (Wizard and Recommendation), it's hard to scale to more without reusable components.
+  -- I'd prefer to create some dub components and separate logic better but it's not necessary for this scale.
+  -- 
+  - User/Product research would help to understand the wizard better.
   -- It can be a case that there's no insurance we can provide for people older than 70 years old.
   --- Solution is we can give an error in a wizard step we ask for birthday.
+
+### Decisions
+
+  - Using new react-router version.
+  -- I just wanted to learn new API and how to write test for it!
+
+  - Using new formik version.
+  -- I just wanted to see if it's better at performance
 
 ## Available Scripts
 

@@ -30,7 +30,8 @@ function Wizard() {
   useEffect(() => {
     if (wrongStep) {
       // navigate user to the first field, navigate requires useEffect.
-      navigate(`/wizard/${stepsInOrder[0]}`);
+      // here replace is important, otherwise browser history will keep `wizard` path as valid path.
+      navigate(`/wizard/${stepsInOrder[0]}`, { replace: true });
     }
   }, [wrongStep, navigate]);
 
@@ -55,18 +56,22 @@ function Wizard() {
       return null;
     }
     persistValues(values, step)
+    if (stepData.rejectionStep && values[step] === 'false') {
+      return navigate(`/wizard/${stepData.rejectionStep}`);
+    }
     const nextStepIndex = stepIndex + 1;
     return navigate(`/wizard/${stepsInOrder[nextStepIndex]}`);
   }
 
   async function handleSubmit(values) {
     persistValues(values, step)
+    const { children, ...omitChildrenStep } = values
     fetch(new URL('user', process.env.REACT_APP_API_URL), {
       headers: {
         'Content-Type': 'application/json'
       },
       method: "POST",
-      body: JSON.stringify(values)
+      body: JSON.stringify(omitChildrenStep)
     })
 
       .then(response => {
@@ -104,7 +109,8 @@ function Wizard() {
             :
             <button type="button" disabled={errors[step]} onClick={() => handleNext(validateForm, values)}>Next</button>
           }
-        </Form>)}
+        </Form>
+      )}
     </Formik>
   );
 }
