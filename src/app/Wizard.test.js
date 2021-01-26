@@ -6,7 +6,7 @@ import App from './App';
 
 import { stepsInOrder, stepsData, requiredMessage } from './Wizard.config'
 
-const [firstStep] = stepsInOrder
+const [firstStep, secondStep] = stepsInOrder
 
 it('renders first step of the wizard', () => {
   const { history } = render(<App />, {
@@ -17,11 +17,22 @@ it('renders first step of the wizard', () => {
 });
 
 describe('required field is empty', () => {
-  it('shows error when user tries to go next step', async () => {
-    const { history } = render(<App />, {
+  it('shows error when user clicks to next button', async () => {
+    render(<App />, {
       initialEntries: ['/wizard']
     });
     userEvent.click(screen.getByRole('button', { name: /next/i }))
     await waitFor(() => screen.getByText(requiredMessage))
+  });
+})
+
+describe('required field is field', () => {
+  it('shows next step field when user click to next button', async () => {
+    render(<App />, {
+      initialEntries: ['/wizard']
+    });
+    userEvent.type(screen.getByPlaceholderText(stepsData[firstStep].placeholder), 'jane doe')
+    userEvent.click(screen.getByRole('button', { name: /next/i }))
+    await waitFor(() => screen.getByPlaceholderText(stepsData[secondStep].placeholder))
   });
 })
