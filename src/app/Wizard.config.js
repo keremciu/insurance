@@ -66,7 +66,7 @@ export const stepsData = {
   },
 };
 
-const requiredMessage = 'This field is required.'
+export const requiredMessage = 'This field is required.'
 
 export const WizardSchema = Yup.object().shape({
   firstName: Yup

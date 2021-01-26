@@ -18,7 +18,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Conclusion: In real world example, I would go for ServiceWorker but for limited time localStorage would serve right.
 
 #### Possible scaling thoughts
-  - Here we have only two big components (Wizard and Recommendation), it's hard to scale to more without reusable components.
+  - Here we have only two big components (Wizard and Recommendation), it's hard to scale bigger without reusable components.
   -- I'd prefer to create some dub components and separate logic better but it's not necessary for this scale.
   -- 
   - User/Product research would help to understand the wizard better.
