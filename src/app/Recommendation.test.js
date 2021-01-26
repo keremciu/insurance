@@ -15,13 +15,14 @@ it('renders secondary title and no authentication error', async () => {
 
 describe('when user clicks try again button', () => {
   it('redirects to homepage', async () => {
-    render(<Recommendation />);
-    // this should be /recommendation
-    // expect(window.location.pathname).toBe("/recommedation");
+    const { history } = render(<Recommendation />, {
+      initialEntries: ['/recommedation']
+    });
+    expect(history.location.pathname).toBe("/recommedation");
     expect(screen.getByText('We got your recommendation')).toBeInTheDocument();
     await waitFor(() => screen.getByText('Not authorized'))
     userEvent.click(screen.getByRole('button', { name: /try again/i }))
-    await waitFor(() => expect(window.location.pathname).toBe("/"));
+    await waitFor(() => expect(history.location.pathname).toBe("/"));
   });
 });
 

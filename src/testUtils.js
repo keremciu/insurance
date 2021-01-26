@@ -31,7 +31,7 @@ const AllTheProviders = ({ children, cookies = new Cookies(), history }) =>
   </HistoryRouter>
 )
 
-const customRender = (ui, options) => {
+const customRender = (ui, options = {}) => {
   const history = createMemoryHistory({ initialEntries: options.initialEntries || ["/"] })
   return {
     result: render(ui, { wrapper: (props) => AllTheProviders({ ...props, ...options, history }), ...options }),
