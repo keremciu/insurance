@@ -29,17 +29,17 @@ export const mockedRecommendations = [
 export const handlers = [
   // Handles a POST /user request
   rest.post(getAbsoluteAPIUrl('user'), (req, res, ctx) => {
-    // Persist user's authentication in the session
-    sessionStorage.setItem('is-authenticated', true)
     return res(
-      // Respond with a 200 status code
       ctx.status(200),
+      ctx.json({
+        jwt: 'authenticate-me-token'
+      })
     )
   }),
   // Handles a GET /recommendation request
   rest.get(getAbsoluteAPIUrl('recommendation'), (req, res, ctx) => {
     // Check if the user is authenticated in this session
-    const isAuthenticated = req.headers.map.authorization === 'authenticate-me-token'
+    const isAuthenticated = req.headers.map.authorization === 'Bearer authenticate-me-token'
     if (!isAuthenticated) {
       // If not authenticated, respond with a 401 error
       return res(

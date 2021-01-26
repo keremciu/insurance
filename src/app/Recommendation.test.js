@@ -28,7 +28,7 @@ describe('when user clicks try again button', () => {
 
 it('shows recommendation list', async () => {
   const authenicatedCookies = new Cookies();
-  authenicatedCookies.set('Authorization', 'authenticate-me-token')
+  authenicatedCookies.set('Authorization', 'Bearer authenticate-me-token')
   render(<Recommendation />, {
     cookies: authenicatedCookies
   });

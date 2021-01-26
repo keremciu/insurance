@@ -51,6 +51,8 @@ function Wizard() {
   }
 
   async function handleNext(validateForm, values) {
+    // validateField doesn't give any callback that's why I had to use validateForm.
+    // there is an issue here: https://github.com/formium/formik/issues/2021
     const errors = await validateForm()
     if (errors[step]) {
       return null;
@@ -73,7 +75,6 @@ function Wizard() {
       method: "POST",
       body: JSON.stringify(omitChildrenStep)
     })
-
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           return response.json()
