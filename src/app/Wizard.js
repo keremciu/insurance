@@ -68,7 +68,7 @@ function Wizard() {
     return navigate(`${process.env.PUBLIC_URL}/wizard/${stepsInOrder[nextStepIndex]}`);
   }
 
-  async function handleSubmit(values) {
+  async function handleSubmit(values, { setFieldError }) {
     setIsLoading(true)
     persistValues(values, step)
     const { children, ...omitChildrenStep } = values
@@ -88,6 +88,10 @@ function Wizard() {
           path: '/'
         })
         navigate(`${process.env.PUBLIC_URL}/recommendation`);
+      } else if (response.status === 422) {
+        Object.entries(result.errors).forEach(([field, messages]) => {
+          setFieldError(field, messages.join(', '))
+        })
       } else {
         setError(result.error)
       }

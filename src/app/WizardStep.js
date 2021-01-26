@@ -21,7 +21,7 @@ function WizardStep() {
         </div>
         :
         <Field
-          type="text"
+          type={stepData.type || "text"}
           id={step}
           name={step}
           placeholder={stepData.placeholder}

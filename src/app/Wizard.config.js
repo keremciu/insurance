@@ -38,6 +38,7 @@ export const stepsData = {
   },
   numberOfChildren: {
     initialValue: 0,
+    type: 'number',
     label: "How many children you have?",
   },
   occupation: {
